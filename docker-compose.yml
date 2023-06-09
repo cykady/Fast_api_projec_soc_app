@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    command: bash -c 'uvicorn app.main:app --host 0.0.0.0 --reload'
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    environment:
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=password123
+      - DATABASE_PORT=5432
+      - DATABASE_HOSTNAME=postgres
+      - DATABASE_NAME=db
+    depends_on:
+      - db
+  db:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=passwrod123
+      - POSTGRES_DB=db
+
+volumes:
+  postgres_data:
