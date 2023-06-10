@@ -20,16 +20,16 @@ def test_delete_vote(authorized_client, test_posts, test_vote):
     res = authorized_client.post("/vote/", json={"post_id": test_posts[3].id, "dir": 0})
     assert res.status_code == 201
 
-def test_delete_vote_non_existing(authorized_client, test_posts,):
-    res = authorized_client.delete("/vote/", json={"post_id": test_posts[0].id,})
+def test_delete_vote_non_existing(authorized_client, test_posts):
+    res = authorized_client.post("/vote/", json={"post_id": test_posts[3].id,"dir":0})
     assert res.status_code == 404
 
 def test_vote_post_non_exist(authorized_client, test_posts):
     res = authorized_client.post("/vote/", json={"post_id": 8000,"dir":1})
     assert res.status_code == 404
 
-def test_vote_unautohorized(authorized_client, test_posts):
-    res = authorized_client.post("/vote/", json={"post_id": test_posts[3].id,"dir":1})
+def test_vote_unautohorized(client, test_posts):
+    res = client.post("/vote/", json={"post_id": test_posts[3].id,"dir":1})
     assert res.status_code == 401
 
 #pytest tests\test_votes.py -v -s
