@@ -9,11 +9,14 @@ services:
     ports:
       - 8000:8000
     environment:
-      - DATABASE_USER=postgres
-      - DATABASE_PASSWORD=password123
-      - DATABASE_PORT=5432
-      - DATABASE_HOSTNAME=postgres
-      - DATABASE_NAME=db
+      - DATABASE_HOSTNAME=${DATABASE_HOSTNAME}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USER=${DATABASE_USER}
+      - SECRET_KEY=${SECRET_KEY}
+      - ALGORITHM=${ALGORITHM}
+      - ACCESS_TOKEN_EXPIRE_MINUTES=${ACCESS_TOKEN_EXPIRE_MINUTES}
     depends_on:
       - db
   db:
@@ -21,9 +24,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=passwrod123
-      - POSTGRES_DB=db
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
 
 volumes:
   postgres_data:
